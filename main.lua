@@ -1,3 +1,12 @@
+--[[
+#//******************************//#
+#//# Author: by uriid1      #//#
+#//# license: GNU GPL       #//#
+#//# telegram: uriid1       #//#
+#//# Mail: appdurov@gmail.com   #//#
+####****************************####
+]]
+
 function love.load()
     math.randomseed(os.time())
     win_w = love.graphics.getWidth()
@@ -34,6 +43,8 @@ function love.load()
     desk.hspeed = 0
     desk.speed = 10
     desk.direction = 0
+
+    -- Movement of the desk
     function desk:step()   
         desk.direction = (key_right - key_left)
         desk.hspeed = lerp(desk.hspeed, desk.speed*desk.direction, 0.1)
@@ -66,6 +77,7 @@ function love.load()
             ball.y = ball.y + ball.vspeed
         end
 
+        -- Activate ball
         if (not ball.active) then
             ball.speed = 0
             ball.x = desk.x
@@ -115,7 +127,7 @@ function love.load()
     ---------
 
     -------- Brick collision detection
-    function brick_collsion(_list_bricks, _ball, _add_spd)
+    function brick_collision(_list_bricks, _ball, _add_spd)
         -- Top or Down
         for i=#_list_bricks, 1, -1 do
             if collision_circle_rect(_ball, bricks[i], 0, _ball.vspeed) then
@@ -167,7 +179,7 @@ function love.update(dt)
     key_space = love.keyboard.isDown("space") and true or false
 
     -- Brick collision
-    brick_collsion(bricks, ball, .075)
+    brick_collision(bricks, ball, .075)
 
     -- Objects movement
     ball:step()
