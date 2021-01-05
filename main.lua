@@ -1,8 +1,8 @@
 --[[
 #//******************************//#
-#//# Author: by uriid1      #//#
-#//# license: GNU GPL       #//#
-#//# telegram: uriid1       #//#
+#//# Author: by uriid1          #//#
+#//# license: GNU GPL           #//#
+#//# telegram: uriid1           #//#
 #//# Mail: appdurov@gmail.com   #//#
 ####****************************####
 ]]
