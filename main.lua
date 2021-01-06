@@ -101,15 +101,10 @@ function love.load()
         end
         ball.x = clamp(ball.x, ball.r, win_w - ball.r)
 
-        -- desk collisin
-        if collision_circle_rect(ball, desk, 0, 0) then
-            ball.direction = point_direction(desk.x, desk.y, ball.x, ball.y)
-        end
-
     end
     -- Draw ball
     function ball:draw_self()
-        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setColor(0, 1, 0, 1)
         love.graphics.circle("fill", ball.x, ball.y, ball.r, 15)
     end
 
@@ -152,7 +147,7 @@ function love.load()
                 _ball.speed = _ball.speed + _add_spd
                 table.remove(bricks, i)
             end
-        end  
+        end
 
         -- Corner
         for i=#_list_bricks, 1, -1 do
@@ -161,19 +156,17 @@ function love.load()
                     _ball.x = _ball.x + _ball.hspeed
                     _ball.y = _ball.y + _ball.vspeed
                 end
-                _ball.hspeed = 0
-                _ball.vspeed = 0
-                _ball.direction = point_direction(bricks[i].x, bricks[i].y, _ball.x, _ball.y)
+                _ball.x = _ball.x + _ball.hspeed
+                _ball.y = _ball.y + _ball.vspeed
                 _ball.speed = _ball.speed + _add_spd
-                table.remove(bricks, i)
             end
         end
     end
 end
 
 function love.update(dt)
-
     -- Control
+    mx, my = love.mouse.getPosition()
     key_left  = love.keyboard.isDown("left")  and 1 or 0
     key_right = love.keyboard.isDown("right") and 1 or 0
     key_space = love.keyboard.isDown("space") and true or false
@@ -181,14 +174,19 @@ function love.update(dt)
     -- Brick collision
     brick_collision(bricks, ball, .075)
 
+    -- desk collision
+    if collision_circle_rect(ball, desk, ball.hspeed, ball.vspeed) then
+        ball.x = ball.x + ball.hspeed
+        ball.y = ball.y + ball.vspeed
+        ball.direction = point_direction(desk.x, desk.y, ball.x, ball.y)
+    end
+
     -- Objects movement
     ball:step()
     desk:step()
-
 end
 
 function love.draw()
-
     -- Background
     love.graphics.setBackgroundColor(.25, .25, .5, 1)
 
@@ -202,5 +200,4 @@ function love.draw()
 
     -- Desk
     desk:draw_self()
-
 end
